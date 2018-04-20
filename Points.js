@@ -1,15 +1,106 @@
 Point = function() {
-	if (arguments.length == 1) {
-		this.x = x;
-		this.y = y;
-	} else {
+	if (arguments.length == 2) {
+		this.x = arguments[0];
+		this.y = arguments[1];
+	} else if (arguments.length == 1) {
 		this.x = arguments[0].x;
-		this.y = arguments[1].y;
-	}	
+		this.y = arguments[0].y;
+	} else {
+		this.x = 0;
+		this.y = 0;
+	}
 }
 
 Point.prototype = {
-	sum: function(p1, p2) {
-		return new Point();
+	sum: function() {
+		if (arguments.length == 2) {
+			var p1 = arguments[0],
+				p2 = arguments[1];
+
+			return new Point({
+				x: p1.x + p2.x,
+				y: p1.y + p2.y
+			});
+
+		} else if (arguments.length == 1) {
+			p1 = arguments[0];
+
+			return new Point({
+				x: this.x + p1.x,
+				y: this.y + p1.y
+			});
+
+		} else return new Point();
+	},
+
+	diff: function() {
+		if (arguments.length == 2) {
+			var p1 = arguments[0],
+				p2 = arguments[1];
+
+			return new Point({
+				x: p1.x - p2.x,
+				y: p1.y - p2.y
+			});
+
+		} else if (arguments.length == 1) {
+			p1 = arguments[0];
+
+			return new Point({
+				x: this.x - p1.x,
+				y: this.y - p1.y
+			});
+
+		} else return new Point();
+	},
+
+	multiply: function(n) {
+		return new Point({
+			x: this.x*n,
+			y: this.y*n
+		});
+	},
+
+	progression: function(n) {
+		this.x *= n;
+		this.y *= n;
+
+		return this;
+	},
+
+	scalar: function() {
+		if (arguments.length == 2) {
+			var p1 = arguments[0],
+				p2 = arguments[1];
+
+			return p1.x * p2.x + p1.y * p2.y;
+
+		} else if (arguments.length == 1) {
+			p1 = arguments[0];
+
+			return this.x * p1.x + this.y * p1.y;
+		}
+	},
+
+	distance: function() {
+		if (arguments.length == 2) {
+			var p1 = arguments[0],
+				p2 = arguments[1],
+				dx = p1.x - p2.x,
+				dy = p1.y - p2.y;
+
+			return Math.pow( dx * dx + dy * dy, 0.5 );
+
+		} else if (arguments.length == 1) {
+			var p1 = arguments[0],
+				dx = this.x - p1.x,
+				dy = this.y - p1.y;
+
+			return Math.pow( dx * dx + dy * dy, 0.5 );
+		}
+	},
+
+	_: function(err) {
+		console.log(err);
 	}
 }
