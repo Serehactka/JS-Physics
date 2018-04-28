@@ -1,15 +1,86 @@
-var Vector = function(x1, y1, x2, y2, nrl = true, positive = true) {
-	this.x1 = x1;
-	this.y1 = y1;
+var Vector = function() {
+
+	let nrl = true,
+		positive = true;
+
+
+	if (typeof arguments[arguments.length - 1] === "boolean") {
+		if (typeof arguments[arguments.length - 2] === "boolean"){
+			// console.log(arguments[arguments.length - 1], arguments[arguments.length - 2])
+			nrl = arguments[arguments.length - 2];
+			positive = arguments[arguments.length - 1];
+			arguments.length -= 2;
+		}
+		else {
+			nrl = arguments[arguments.length - 1];
+			arguments.length -= 1;
+		}
+	}
+
+	switch (arguments.length) {
+		case 1:
+			if (typeof arguments[0] === "object") {
+				let point1 = arguments[0];
+
+				this.point1 = new Point(0,0);
+				this.point2 = new Point(point2);
+			}
+			break;
+
+		case 2:
+			if (typeof arguments[0] === "object" && typeof arguments[1] == "object") {
+				let point1 = arguments[0],
+					point2 = arguments[1];
+
+				this.point1 = new Point(point1);
+				this.point2 = new Point(point2);
+
+			} else if (typeof arguments[0] === "number" && typeof arguments[1] == "number") {
+				let x = arguments[0],
+					y = arguments[1];
+
+				this.point1 = new Point();
+				this.point2 = new Point(x,y);
+			}
+			break;
+
+		case 3:
+			break;
+
+		case 4:
+			if (typeof arguments[0] === "number" && typeof arguments[1] === "number" && typeof arguments[2] === "number" && typeof arguments[3] === "number") {
+				let x1 = arguments[0],
+					y1 = arguments[1],
+					x2 = arguments[2],
+					y2 = arguments[3];
+
+				this.point1 = new Point(x1,y1);
+				this.point2 = new Point(x2,y2);
+
+			} else this.setOneVector();
+			break;
+
+		default:
+			this.setOneVector();
+	}
+
+	this.x1 = this.point1.x;
+	this.y1 = this.point1.y;
+
+	this.x2 = this.point2.x;
+	this.y2 = this.point2.y;
+
+	// this.x1 = x1;
+	// this.y1 = y1;
 	
-	this.x2 = x2;
-	this.y2 = y2;
+	// this.x2 = x2;
+	// this.y2 = y2;
 	
-	this.l_x1 = x1;
-	this.l_x2 = x2;
+	this.l_x1 = this.x1;
+	this.l_x2 = this.x2;
 	
-	this.l_y1 = y1;
-	this.l_y2 = y2;
+	this.l_y1 = this.y1;
+	this.l_y2 =	this.y2;
 	
 	if (nrl) {
 		this.normalize();
@@ -27,7 +98,15 @@ var Vector = function(x1, y1, x2, y2, nrl = true, positive = true) {
 
 Vector.prototype = {
 
+	setOneVector: function() {
+		this.point1 = new Point();
+		this.point2 = new Point(1,1);
+	},
+
 	recount: function() {
+		this.point1.redefine(this.x1, this.y1);
+		this.point2.redefine(this.x2, this.y2);
+
 		this.dx = this.x2 - this.x1;
 		this.dy = this.y2 - this.y1;
 		
@@ -49,6 +128,8 @@ Vector.prototype = {
 		this.y1 = this.l_y1;
 		this.y2 = this.l_y2;
 
+		this.recount();
+
 		return this;
 	},
 	
@@ -69,8 +150,6 @@ Vector.prototype = {
 		
 		this.recount();
 
-		console.log(this);
-
 		return this;
 	},
 
@@ -79,8 +158,6 @@ Vector.prototype = {
 		this.y2 = va.y2 - vb.y2;
 
 		this.recount();
-
-		console.log(this);
 
 		return this;
 	},
@@ -109,7 +186,10 @@ Vector.prototype = {
 	normalize: function() {
 		this.x2 = this.x2 - this.x1;
 		this.y2 = this.y2 - this.y1;
-	
+
+		this.point2.diff(this.point1);
+		this.point1.redefine();
+
 		this.x1 = 0;
 		this.y1 = 0;
 

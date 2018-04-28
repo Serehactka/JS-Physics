@@ -25,12 +25,12 @@ Point.prototype = {
 		} else if (arguments.length == 1) {
 			p1 = arguments[0];
 
-			return new Point({
-				x: this.x + p1.x,
-				y: this.y + p1.y
-			});
+			this.x =  this.x + p1.x;
+			this.y = this.y + p1.y;
 
-		} else return new Point();
+			return this;
+
+		} else return this;
 	},
 
 	diff: function() {
@@ -46,19 +46,19 @@ Point.prototype = {
 		} else if (arguments.length == 1) {
 			p1 = arguments[0];
 
-			return new Point({
-				x: this.x - p1.x,
-				y: this.y - p1.y
-			});
+			this.x =  this.x - p1.x;
+			this.y = this.y - p1.y;
 
-		} else return new Point();
+			return this;
+
+		} else return this;
 	},
 
 	multiply: function(n) {
-		return new Point({
-			x: this.x*n,
-			y: this.y*n
-		});
+		this.x *= n;
+		this.y *= n;
+
+		return this;
 	},
 
 	progression: function(n) {
@@ -113,7 +113,7 @@ Point.prototype = {
 		}
 
 		return this;
-	}
+	},
 
 	_: function(err) {
 		console.log(err);
