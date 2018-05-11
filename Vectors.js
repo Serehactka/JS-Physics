@@ -23,7 +23,7 @@ var Vector = function() {
 				let point1 = arguments[0];
 
 				this.point1 = new Point(0,0);
-				this.point2 = new Point(point2);
+				this.point2 = new Point(arguments[0]);
 			}
 			break;
 
@@ -117,9 +117,18 @@ Vector.prototype = {
 		this.delta = Math.pow(Math.pow(this.dx, 2) + Math.pow(this.dy, 2), 0.5);
 	},
 
-	scalyar: function(vector) {
-		console.log(this.y2*vector.y2)
-		return Math.pow(Math.abs(this.x2*vector.x2 + this.y2*vector.y2), 0.5);
+	scalar: function() {
+		if (arguments.length == 1) {
+			var vector = arguments[0];
+
+			return Math.pow(Math.abs(this.dx*vector.dx + this.dy*vector.dy), 0.5);
+
+		} else if (arguments.length == 0) {
+
+			return Math.pow(Math.abs(this.dx*this.dx + this.dy*this.dy), 0.5);
+		}
+
+		return 0;
 	},
 
 	toDefault: function() {
@@ -177,8 +186,6 @@ Vector.prototype = {
 		}
 
 		this.recount();
-
-		console.log(this);
 
 		return this;
 	},
