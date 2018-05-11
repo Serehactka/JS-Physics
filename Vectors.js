@@ -3,6 +3,8 @@ var Vector = function() {
 	let nrl = true,
 		positive = true;
 
+	this.point1 = new Point();
+	this.point2 = new Point();
 
 	if (typeof arguments[arguments.length - 1] === "boolean") {
 		if (typeof arguments[arguments.length - 2] === "boolean"){
@@ -99,8 +101,12 @@ var Vector = function() {
 Vector.prototype = {
 
 	setOneVector: function() {
-		this.point1 = new Point();
-		this.point2 = new Point(1,1);
+		this.x1 = 0; this.x2 = 1;
+		this.y1 = 0; this.y2 = 1;
+
+		this.recount();
+
+		return this;
 	},
 
 	recount: function() {
